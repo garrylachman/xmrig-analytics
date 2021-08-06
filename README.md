@@ -1,4 +1,4 @@
-# XMRig to Google Analitics Reporter
+# XMRig to Google Analytics Reporter
 
 ### Howto
 Clone the repo or download the zip file.
