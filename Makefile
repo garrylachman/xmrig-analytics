@@ -5,6 +5,12 @@ PYTHON=python3
 PYDOC=pydoc3
 PIP=pip3
 
+ifeq (run,$(firstword $(MAKECMDGOALS)))
+  # use the rest as arguments for "run"
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  # ...and turn them into do-nothing targets
+  $(eval $(RUN_ARGS):;@:)
+endif
 
 help: ## Print help for each target
 	$(info Things3 low-level Python API.)
@@ -16,7 +22,7 @@ help: ## Print help for each target
 		| sort | awk 'BEGIN {FS=":.* ## "}; {printf "%-25s %s\n", $$1, $$2};'
 
 run: ## Run the code
-	@$(PYTHON) $(SRC_CORE)/hello.py -f -n Foo test
+	@$(PYTHON) $(SRC_CORE)/cli.py -c $(RUN_ARGS)
 
 test: ## Test the code
 	@type coverage >/dev/null 2>&1 || (echo "Run '$(PIP) install coverage' first." >&2 ; exit 1)
